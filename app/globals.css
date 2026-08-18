@@ -40,7 +40,7 @@ button { color: inherit; }
 .nav-arrow-left { left: 42px; } .nav-arrow-right { right: 42px; }
 .profile-slide { height: 100%; display: grid; grid-template-columns: minmax(280px, .92fr) minmax(320px, 1fr); align-items: center; gap: clamp(50px, 9vw, 130px); padding: 35px 7%; }
 .profile-image-wrap { height: 100%; min-height: 430px; position: relative; overflow: hidden; background: var(--panel); }
-.profile-image { object-fit: cover; object-position: center; filter: saturate(.76); }
+.profile-image { object-fit: cover; object-position: center top; }
 .profile-image-empty, .gallery-empty { display: grid; place-items: center; color: var(--muted-foreground); background: var(--panel); }
 .profile-image-empty { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 .gallery-empty { grid-column: 1 / -1; min-height: 100%; border: 1px dashed var(--border); cursor: pointer; gap: 10px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
