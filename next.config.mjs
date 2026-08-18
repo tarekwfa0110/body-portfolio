@@ -4,7 +4,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    minimumCacheTTL: 31536000, // 1 year in seconds
   },
 }
 
