@@ -5,23 +5,9 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Abdelrahman Alaa — Clinical Portfolio',
   description: 'A visual clinical portfolio of restorative and endodontic dentistry by Abdelrahman Alaa, intern dentist at Assiut University Faculty of Dentistry.',
-  generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/Body Mini Picture.png',
+    apple: '/Body Mini Picture.png',
   },
 }
 
