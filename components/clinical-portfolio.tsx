@@ -70,6 +70,22 @@ export function ClinicalPortfolio() {
     window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey)
   }, [currentImages?.length, lightbox, next, previous])
 
+  useEffect(() => {
+    const links: HTMLLinkElement[] = []
+    for (let offset = 1; offset <= 4; offset++) {
+      const slide = slides[(index + offset) % slides.length]
+      slide.images?.forEach((src) => {
+        const link = document.createElement('link')
+        link.rel = 'prefetch'
+        link.as = 'image'
+        link.href = `/_next/image?url=${encodeURIComponent(src)}&w=1200&q=75`
+        document.head.appendChild(link)
+        links.push(link)
+      })
+    }
+    return () => { links.forEach((link) => link.remove()) }
+  }, [index])
+
   return <main className={`portfolio-shell section-${current.section.toLowerCase().replaceAll(' ', '-')}`}>
     <header className="portfolio-header"><div className="header-center"><Image src="/Body Mini Picture.png" alt="Abdelrahman Alaa" width={52} height={64} className="header-avatar" onClick={() => move(0, -1)} style={{cursor:'pointer'}} /></div><a className="contact-link" href="mailto:abdelrahman.alaa@dentistry.example.com">Contact <ArrowRight size={14} /></a></header>
     <div className="portfolio-stage" onTouchStart={(event) => { (event.currentTarget as HTMLElement).dataset.touchX = String(event.touches[0].clientX) }} onTouchEnd={(event) => { const start = Number((event.currentTarget as HTMLElement).dataset.touchX); const delta = event.changedTouches[0].clientX - start; if (Math.abs(delta) > 50) delta < 0 ? next() : previous() }}>
