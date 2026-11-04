@@ -1,10 +1,11 @@
-import type { Case, Portfolio, Profile } from './types'
+import { photo } from './images'
+import type { Portfolio, Profile, SectionName } from './types'
 
 export const profile: Profile = {
   name: 'Abdelrahman Alaa',
   bio: 'Intern dentist at the Faculty of Dentistry, Assiut University, Class of 2025 — graduating with an overall grade of Very Good. Driven by a deep interest in Restorative Dentistry, Endodontics, Oral Surgery, and Oral & Maxillofacial Diseases, and actively seeking observer or unpaid assistant roles to build hands-on clinical experience and grow within the disciplines that matter most.',
-  portrait: '/portrait.webp',
-  avatar: '/avatar.webp',
+  portrait: photo('/portrait.webp'),
+  avatar: photo('/avatar.webp'),
   contacts: [
     {
       label: 'Instagram',
@@ -31,7 +32,7 @@ export const profile: Profile = {
 }
 
 // Case order here is the order on the site. Sections are grouped by name.
-export const cases: Case[] = [
+const rawCases: { section: SectionName; title: string; images: string[] }[] = [
   {
     section: 'Endodontics',
     title: 'Rct for upper 5',
@@ -322,7 +323,9 @@ export const cases: Case[] = [
   },
 ]
 
-// The one place the site reads its content from.
-export async function getPortfolio(): Promise<Portfolio> {
-  return { profile, cases }
+// The site's content as it ships in the code. Used when the database is not
+// set up yet, or is empty.
+export const staticPortfolio: Portfolio = {
+  profile,
+  cases: rawCases.map((c) => ({ ...c, images: c.images.map(photo) })),
 }

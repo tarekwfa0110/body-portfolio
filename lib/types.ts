@@ -6,11 +6,17 @@ export const sectionNames = [
 
 export type SectionName = (typeof sectionNames)[number]
 
+export type Photo = {
+  /** Path under public/ (e.g. /cases/rct-for-upper-5-1.webp) or a full URL */
+  src: string
+  width: number
+  height: number
+}
+
 export type Case = {
   section: SectionName
   title: string
-  /** Paths under public/, e.g. /cases/rct-for-upper-5-1.webp */
-  images: string[]
+  images: Photo[]
 }
 
 export type Contact = {
@@ -23,8 +29,8 @@ export type Contact = {
 export type Profile = {
   name: string
   bio: string
-  portrait: string
-  avatar: string
+  portrait: Photo
+  avatar: Photo
   /** Shown in this order */
   contacts: Contact[]
 }

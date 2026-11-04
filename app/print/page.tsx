@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { PrintButton } from '@/components/print-button'
-import { imageSize } from '@/lib/images'
-import { getPortfolio } from '@/lib/portfolio'
+import { getPortfolio } from '@/lib/content'
+
+export const revalidate = 3600
 
 export const metadata = { title: 'Abdelrahman Alaa — Clinical Portfolio (print)' }
 
@@ -35,12 +36,11 @@ export default async function PrintPage() {
           )}
           <h3>{item.title}</h3>
           <div className="print-gallery" data-count={Math.min(item.images.length, 5)}>
-            {item.images.map((src) => {
-              const { width, height } = imageSize(src)
+            {item.images.map((image) => {
               return (
                 // Plain img: the PDF should use the files as they are, not resized copies.
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={src} src={src} width={width} height={height} alt="" loading="eager" />
+                <img key={image.src} src={image.src} width={image.width} height={image.height} alt="" loading="eager" />
               )
             })}
           </div>
