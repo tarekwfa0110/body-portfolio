@@ -6,17 +6,15 @@ export const metadata: Metadata = {
   title: 'Abdelrahman Alaa — Clinical Portfolio',
   description: 'A visual clinical portfolio of restorative and endodontic dentistry by Abdelrahman Alaa, intern dentist at Assiut University Faculty of Dentistry.',
   icons: {
-    icon: '/Body Mini Picture.png',
-    apple: '/Body Mini Picture.png',
+    icon: '/icon.png',
+    apple: '/icon.png',
   },
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: 'light',
+  themeColor: '#f5f4ef',
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({
