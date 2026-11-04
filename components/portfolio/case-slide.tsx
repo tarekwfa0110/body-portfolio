@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { imageSize } from '@/lib/images'
 import type { Case } from '@/lib/types'
 
 export function CaseSlide({
@@ -16,20 +15,19 @@ export function CaseSlide({
         <h1>{item.title}</h1>
       </div>
       <div className="case-gallery" data-count={Math.min(item.images.length, 4)}>
-        {item.images.map((src, i) => {
-          const { width, height } = imageSize(src)
+        {item.images.map((image, i) => {
           return (
             <button
-              key={`${src}-${i}`}
+              key={`${image.src}-${i}`}
               className="gallery-item"
               onClick={() => onImageClick(i)}
               aria-label={`View image ${i + 1} of ${item.title}`}
             >
               <Image
-                src={src}
+                src={image.src}
                 alt={`${item.title}, clinical view ${i + 1}`}
-                width={width}
-                height={height}
+                width={image.width}
+                height={image.height}
                 sizes="(max-width: 800px) 100vw, 33vw"
                 className="gallery-image"
               />
