@@ -1,17 +1,15 @@
 import Image from 'next/image'
-import { imageSize } from '@/lib/images'
 import type { Profile } from '@/lib/types'
 
 export function ProfileSlide({ profile }: { profile: Profile }) {
-  const { width, height } = imageSize(profile.portrait)
   return (
     <div className="profile-slide">
       <div className="profile-image-wrap">
         <Image
-          src={profile.portrait}
+          src={profile.portrait.src}
           alt={profile.name}
-          width={width}
-          height={height}
+          width={profile.portrait.width}
+          height={profile.portrait.height}
           sizes="(max-width: 800px) 100vw, 50vw"
           className="profile-image"
           priority

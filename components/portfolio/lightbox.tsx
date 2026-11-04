@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
-import { imageSize } from '@/lib/images'
+import type { Photo } from '@/lib/types'
 
 type Props = {
   title: string
-  images: string[]
+  images: Photo[]
   index: number
   onChange: (index: number) => void
   onClose: () => void
@@ -13,7 +13,7 @@ type Props = {
 export function Lightbox({ title, images, index, onChange, onClose }: Props) {
   const count = images.length
   const step = (by: number) => onChange((index + by + count) % count)
-  const { width, height } = imageSize(images[index])
+  const image = images[index]
   let touchX = 0
 
   return (
@@ -47,10 +47,10 @@ export function Lightbox({ title, images, index, onChange, onClose }: Props) {
         </button>
       )}
       <Image
-        src={images[index]}
+        src={image.src}
         alt={`${title}, image ${index + 1}`}
-        width={width}
-        height={height}
+        width={image.width}
+        height={image.height}
         sizes="100vw"
         className="lightbox-image"
         onClick={(e) => e.stopPropagation()}

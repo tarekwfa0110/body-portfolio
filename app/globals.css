@@ -779,3 +779,166 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Admin (/admin) ---------- */
+
+.admin {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+  font-size: 14px;
+}
+
+.admin-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-bar h1,
+.admin h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+.admin-bar div {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.admin-section > h2 {
+  margin: 36px 0 12px;
+  font-size: 28px;
+}
+
+.admin-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.admin-card h2 {
+  font-size: 22px;
+}
+
+.admin-card label,
+.admin-card fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.admin input:not([type="file"]):not([type="hidden"]),
+.admin textarea,
+.admin select {
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 14px;
+}
+
+.admin-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-row > input:not([type="file"]):not([type="hidden"]) {
+  flex: 1 1 180px;
+}
+
+.admin-button,
+.admin-link {
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.admin-button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.admin-link {
+  border: 0;
+  background: none;
+  color: inherit;
+}
+
+.admin-danger {
+  border-color: #a33;
+  background: transparent;
+  color: #a33;
+}
+
+.admin-error {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border: 1px solid #a33;
+  color: #a33;
+}
+
+.admin-login {
+  max-width: 360px;
+  margin: 15vh auto 0;
+}
+
+.admin pre {
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+  background: var(--background);
+}
+
+.admin-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-image {
+  width: 120px;
+}
+
+.admin-image img {
+  display: block;
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  background: var(--background);
+}
+
+.admin-image div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin-image button {
+  min-width: 36px;
+  min-height: 36px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  cursor: pointer;
+}

@@ -1,5 +1,7 @@
 import { Portfolio } from '@/components/portfolio'
-import { getPortfolio } from '@/lib/portfolio'
+import { getPortfolio } from '@/lib/content'
+
+export const revalidate = 3600
 
 export default async function Page() {
   const { profile, cases } = await getPortfolio()
