@@ -17,15 +17,26 @@ import {
   saveProfile,
   updateCase,
 } from './actions'
+import './admin.css'
 
 export const metadata = { title: 'Admin', robots: { index: false, follow: false } }
 export const dynamic = 'force-dynamic'
 
 type ImageRow = { id: number; path: string; sort_order: number }
-type CaseRow = { id: number; section: string; title: string; sort_order: number; case_images: ImageRow[] }
+type CaseRow = {
+  id: number
+  section: string
+  title: string
+  sort_order: number
+  case_images: ImageRow[]
+}
 type SettingsRow = { name: string; bio: string; contacts: Contact[]; portrait_path: string }
 
-export default async function AdminPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>
+}) {
   const { error } = await searchParams
   const db = getDb()
 
@@ -33,7 +44,11 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
   if (!(await isAdmin())) return <Login error={error} />
 
   const [settings, cases] = await Promise.all([
-    db.from('settings').select('name, bio, contacts, portrait_path').eq('id', 1).maybeSingle<SettingsRow>(),
+    db
+      .from('settings')
+      .select('name, bio, contacts, portrait_path')
+      .eq('id', 1)
+      .maybeSingle<SettingsRow>(),
     db
       .from('cases')
       .select('id, section, title, sort_order, case_images(id, path, sort_order)')
@@ -63,8 +78,8 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
         <section className="admin-card">
           <h2>Start from the current site</h2>
           <p>
-            The database is empty, so the public site is still showing the content in the code. Copy that content
-            into the database once, then edit it here.
+            The database is empty, so the public site is still showing the content in the code. Copy
+            that content into the database once, then edit it here.
           </p>
           <form action={importStarterContent}>
             <SubmitButton>Import current content</SubmitButton>
@@ -95,7 +110,9 @@ function Setup() {
     <main className="admin">
       <section className="admin-card">
         <h1>Admin is not set up yet</h1>
-        <p>Add these three values to .env.local (and to the Vercel project settings), then restart:</p>
+        <p>
+          Add these three values to .env.local (and to the Vercel project settings), then restart:
+        </p>
         <pre>{`SUPABASE_URL=...
 SUPABASE_SERVICE_ROLE_KEY=...
 ADMIN_PASSWORD=...`}</pre>
@@ -137,7 +154,11 @@ function ProfileForm({ settings }: { settings: SettingsRow }) {
         {contacts.map((contact, i) => (
           <div className="admin-row" key={i}>
             <input name={`label_${i}`} defaultValue={contact.label} placeholder="Label" />
-            <input name={`href_${i}`} defaultValue={contact.href} placeholder="Link (https://, tel:, mailto:)" />
+            <input
+              name={`href_${i}`}
+              defaultValue={contact.href}
+              placeholder="Link (https://, tel:, mailto:)"
+            />
             <input name={`display_${i}`} defaultValue={contact.display} placeholder="Text shown" />
           </div>
         ))}
@@ -167,10 +188,22 @@ function CaseCard({ row }: { row: CaseRow }) {
         <button className="admin-button" formAction={updateCase}>
           Save
         </button>
-        <button className="admin-button" formAction={moveCase} name="direction" value="up" aria-label="Move up">
+        <button
+          className="admin-button"
+          formAction={moveCase}
+          name="direction"
+          value="up"
+          aria-label="Move up"
+        >
           ↑
         </button>
-        <button className="admin-button" formAction={moveCase} name="direction" value="down" aria-label="Move down">
+        <button
+          className="admin-button"
+          formAction={moveCase}
+          name="direction"
+          value="down"
+          aria-label="Move down"
+        >
           ↓
         </button>
         <button className="admin-button admin-danger" formAction={deleteCase}>

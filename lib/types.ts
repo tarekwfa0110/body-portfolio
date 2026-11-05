@@ -1,8 +1,4 @@
-export const sectionNames = [
-  'Endodontics',
-  'Operative Dentistry',
-  'Fixed Prosthodontics',
-] as const
+export const sectionNames = ['Endodontics', 'Operative Dentistry', 'Fixed Prosthodontics'] as const
 
 export type SectionName = (typeof sectionNames)[number]
 

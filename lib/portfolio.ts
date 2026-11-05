@@ -46,18 +46,12 @@ const rawCases: { section: SectionName; title: string; images: string[] }[] = [
   {
     section: 'Endodontics',
     title: 'Rct for lower right 7',
-    images: [
-      '/cases/rct-for-lower-right-7-1.webp',
-      '/cases/rct-for-lower-right-7-2.webp',
-    ],
+    images: ['/cases/rct-for-lower-right-7-1.webp', '/cases/rct-for-lower-right-7-2.webp'],
   },
   {
     section: 'Endodontics',
     title: 'Rct for upper 1 & 2',
-    images: [
-      '/cases/rct-for-upper-1-and-2-1.webp',
-      '/cases/rct-for-upper-1-and-2-2.webp',
-    ],
+    images: ['/cases/rct-for-upper-1-and-2-1.webp', '/cases/rct-for-upper-1-and-2-2.webp'],
   },
   {
     section: 'Endodontics',
@@ -121,9 +115,7 @@ const rawCases: { section: SectionName; title: string; images: string[] }[] = [
   {
     section: 'Operative Dentistry',
     title: 'Class I restoration for lower 6',
-    images: [
-      '/cases/simple-class-i-composite-restoration-for-lower-6-overview.webp',
-    ],
+    images: ['/cases/simple-class-i-composite-restoration-for-lower-6-overview.webp'],
   },
   {
     section: 'Operative Dentistry',
@@ -290,8 +282,7 @@ const rawCases: { section: SectionName; title: string; images: string[] }[] = [
   },
   {
     section: 'Fixed Prosthodontics',
-    title:
-      'Surgical crown lengthening followed by post & core and zirconia crown',
+    title: 'Surgical crown lengthening followed by post & core and zirconia crown',
     images: [
       '/cases/surgical-crown-lengthining-followed-by-post-and-core-and-zirconia-crown-1.webp',
       '/cases/surgical-crown-lengthining-followed-by-post-and-core-and-zirconia-crown-2.webp',

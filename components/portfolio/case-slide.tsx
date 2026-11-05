@@ -3,15 +3,19 @@ import type { Case } from '@/lib/types'
 
 export function CaseSlide({
   item,
+  number,
   onImageClick,
 }: {
   item: Case
+  number: number
   onImageClick: (index: number) => void
 }) {
   return (
     <div className="case-slide">
       <div className="case-heading">
-        <span className="eyebrow">{item.section}</span>
+        <span className="eyebrow">
+          {item.section} · Case {String(number).padStart(2, '0')}
+        </span>
         <h1>{item.title}</h1>
       </div>
       <div className="case-gallery" data-count={Math.min(item.images.length, 4)}>

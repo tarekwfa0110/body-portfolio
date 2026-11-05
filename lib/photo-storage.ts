@@ -6,7 +6,12 @@ import type { Photo } from './types'
 const PUBLIC_PREFIX = `/storage/v1/object/public/${BUCKET}/`
 
 /** Compress an uploaded image to WebP and store it in Supabase Storage. */
-export async function storePhoto(file: File, folder: string, maxEdge: number, quality: number): Promise<Photo> {
+export async function storePhoto(
+  file: File,
+  folder: string,
+  maxEdge: number,
+  quality: number,
+): Promise<Photo> {
   const db = getDb()
   if (!db) throw new Error('Supabase is not configured')
 

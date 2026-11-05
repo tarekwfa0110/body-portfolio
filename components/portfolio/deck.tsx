@@ -4,13 +4,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { buildSlides } from '@/lib/slides'
 import type { Portfolio as PortfolioData } from '@/lib/types'
-import { CaseSlide } from './portfolio/case-slide'
-import { IntroSlide } from './portfolio/intro-slide'
-import { Lightbox } from './portfolio/lightbox'
-import { ProfileSlide } from './portfolio/profile-slide'
-import { SiteHeader } from './portfolio/site-header'
+import { CaseSlide } from './case-slide'
+import { IntroSlide } from './intro-slide'
+import { Lightbox } from './lightbox'
+import { ProfileSlide } from './profile-slide'
+import { SiteHeader } from './site-header'
+import './portfolio.css'
 
-export function Portfolio({ profile, cases }: PortfolioData) {
+export function Deck({ profile, cases }: PortfolioData) {
   const { slides, jumps } = useMemo(() => buildSlides(cases), [cases])
   const [index, setIndex] = useState(0)
   const [direction, setDirection] = useState(1)
@@ -69,7 +70,9 @@ export function Portfolio({ profile, cases }: PortfolioData) {
         >
           {slide.kind === 'profile' && <ProfileSlide profile={profile} />}
           {slide.kind === 'intro' && <IntroSlide section={slide.section} number={slide.number} />}
-          {slide.kind === 'case' && <CaseSlide item={slide.item} onImageClick={setLightbox} />}
+          {slide.kind === 'case' && (
+            <CaseSlide item={slide.item} number={slide.number} onImageClick={setLightbox} />
+          )}
         </div>
       </div>
 
