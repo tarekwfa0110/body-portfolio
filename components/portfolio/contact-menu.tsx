@@ -10,7 +10,11 @@ export function ContactMenu({ contacts }: { contacts: Contact[] }) {
       <ul className="contact-list">
         {contacts.map((contact) => (
           <li key={contact.label}>
-            <a href={contact.href} target={contact.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">
+            <a
+              href={contact.href}
+              target={contact.href.startsWith('http') ? '_blank' : undefined}
+              rel="noreferrer"
+            >
               <span className="eyebrow">{contact.label}</span>
               {contact.display}
             </a>

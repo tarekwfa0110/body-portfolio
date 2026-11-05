@@ -4,7 +4,7 @@ import { sectionNames } from './types'
 export type Slide =
   | { kind: 'profile' }
   | { kind: 'intro'; section: SectionName; number: string }
-  | { kind: 'case'; section: SectionName; item: Case }
+  | { kind: 'case'; section: SectionName; number: number; item: Case }
 
 export type JumpTarget = { label: string; index: number }
 
@@ -18,7 +18,7 @@ export function buildSlides(cases: Case[]) {
     if (sectionCases.length === 0) return
     jumps.push({ label: section, index: slides.length })
     slides.push({ kind: 'intro', section, number: String(i + 1).padStart(2, '0') })
-    for (const item of sectionCases) slides.push({ kind: 'case', section, item })
+    sectionCases.forEach((item, n) => slides.push({ kind: 'case', section, number: n + 1, item }))
   })
 
   return { slides, jumps }

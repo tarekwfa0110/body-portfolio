@@ -14,8 +14,12 @@ async function shrink(file: File) {
   canvas.width = Math.round(bitmap.width * scale)
   canvas.height = Math.round(bitmap.height * scale)
   canvas.getContext('2d')!.drawImage(bitmap, 0, 0, canvas.width, canvas.height)
-  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.82))
-  return blob ? new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' }) : file
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, 'image/jpeg', 0.82),
+  )
+  return blob
+    ? new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' })
+    : file
 }
 
 export function PhotoInput({
@@ -37,7 +41,8 @@ export function PhotoInput({
       onChange={async (event) => {
         const input = event.currentTarget
         const shrunk = new DataTransfer()
-        for (const file of Array.from(input.files ?? [])) shrunk.items.add(await shrink(file).catch(() => file))
+        for (const file of Array.from(input.files ?? []))
+          shrunk.items.add(await shrink(file).catch(() => file))
         input.files = shrunk.files
       }}
     />
