@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import type { Photo } from '@/lib/types'
@@ -14,7 +15,7 @@ export function Lightbox({ title, images, index, onChange, onClose }: Props) {
   const count = images.length
   const step = (by: number) => onChange((index + by + count) % count)
   const image = images[index]
-  let touchX = 0
+  const touchX = useRef(0)
 
   return (
     <div
@@ -24,10 +25,10 @@ export function Lightbox({ title, images, index, onChange, onClose }: Props) {
       aria-label="Expanded clinical image"
       onClick={onClose}
       onTouchStart={(e) => {
-        touchX = e.touches[0].clientX
+        touchX.current = e.touches[0].clientX
       }}
       onTouchEnd={(e) => {
-        const delta = e.changedTouches[0].clientX - touchX
+        const delta = e.changedTouches[0].clientX - touchX.current
         if (Math.abs(delta) > 50) step(delta < 0 ? 1 : -1)
       }}
     >

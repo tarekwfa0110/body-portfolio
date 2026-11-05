@@ -51,13 +51,23 @@ async function swapWithNeighbour(
   const to = direction === 'up' ? from - 1 : from + 1
   if (from < 0 || to < 0 || to >= rows.length) return
 
-  const first = await db().from(table).update({ sort_order: rows[to].sort_order }).eq('id', rows[from].id)
-  const second = await db().from(table).update({ sort_order: rows[from].sort_order }).eq('id', rows[to].id)
+  const first = await db()
+    .from(table)
+    .update({ sort_order: rows[to].sort_order })
+    .eq('id', rows[from].id)
+  const second = await db()
+    .from(table)
+    .update({ sort_order: rows[from].sort_order })
+    .eq('id', rows[to].id)
   check(first.error ?? second.error)
 }
 
 async function nextOrder(table: 'cases' | 'case_images', column?: string, value?: number) {
-  let query = db().from(table).select('sort_order').order('sort_order', { ascending: false }).limit(1)
+  let query = db()
+    .from(table)
+    .select('sort_order')
+    .order('sort_order', { ascending: false })
+    .limit(1)
   if (column && value !== undefined) query = query.eq(column, value)
   const { data, error } = await query
   check(error)
@@ -68,9 +78,13 @@ async function addPhotosToCase(caseId: number, photos: File[]) {
   let order = await nextOrder('case_images', 'case_id', caseId)
   for (const file of photos) {
     const stored = await storePhoto(file, 'cases', 1600, 68)
-    const { error } = await db()
-      .from('case_images')
-      .insert({ case_id: caseId, path: stored.src, width: stored.width, height: stored.height, sort_order: order++ })
+    const { error } = await db().from('case_images').insert({
+      case_id: caseId,
+      path: stored.src,
+      width: stored.width,
+      height: stored.height,
+      sort_order: order++,
+    })
     check(error)
   }
 }
@@ -154,7 +168,11 @@ export async function saveProfile(form: FormData) {
 
   const [portraitFile] = files(form, 'portrait')
   if (portraitFile) {
-    const old = await db().from('settings').select('portrait_path, avatar_path').eq('id', 1).maybeSingle()
+    const old = await db()
+      .from('settings')
+      .select('portrait_path, avatar_path')
+      .eq('id', 1)
+      .maybeSingle()
     const portrait = await storePhoto(portraitFile, 'profile', 1200, 78)
     const avatar = await storePhoto(portraitFile, 'profile', 160, 80)
     Object.assign(changes, {
@@ -185,7 +203,11 @@ export async function addCase(form: FormData) {
 
   const { data, error } = await db()
     .from('cases')
-    .insert({ title, section: toSection(text(form, 'section')), sort_order: await nextOrder('cases') })
+    .insert({
+      title,
+      section: toSection(text(form, 'section')),
+      sort_order: await nextOrder('cases'),
+    })
     .select('id')
     .single()
   check(error)

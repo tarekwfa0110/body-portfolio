@@ -1,0 +1,6 @@
+.next
+node_modules
+pnpm-lock.yaml
+lib/image-sizes.json
+originals
+public

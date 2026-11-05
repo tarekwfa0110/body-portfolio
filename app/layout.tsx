@@ -1,10 +1,13 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import '@fontsource-variable/dm-sans/wght.css'
+import '@fontsource/cormorant-garamond/latin-400.css'
 import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Abdelrahman Alaa — Clinical Portfolio',
-  description: 'A visual clinical portfolio of restorative and endodontic dentistry by Abdelrahman Alaa, intern dentist at Assiut University Faculty of Dentistry.',
+  description:
+    'A visual clinical portfolio of restorative and endodontic dentistry by Abdelrahman Alaa, intern dentist at Assiut University Faculty of Dentistry.',
   icons: {
     icon: '/icon.png',
     apple: '/icon.png',
@@ -23,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="bg-background">
-      <body className="antialiased">
+    <html lang="en">
+      <body>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

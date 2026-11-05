@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { PrintButton } from '@/components/print-button'
+import { PrintButton } from '@/components/print/print-button'
+import './print.css'
 import { getPortfolio } from '@/lib/content'
 
 export const revalidate = 3600
@@ -40,7 +41,14 @@ export default async function PrintPage() {
               return (
                 // Plain img: the PDF should use the files as they are, not resized copies.
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={image.src} src={image.src} width={image.width} height={image.height} alt="" loading="eager" />
+                <img
+                  key={image.src}
+                  src={image.src}
+                  width={image.width}
+                  height={image.height}
+                  alt=""
+                  loading="eager"
+                />
               )
             })}
           </div>
