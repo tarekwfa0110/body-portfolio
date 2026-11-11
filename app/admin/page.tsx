@@ -74,7 +74,7 @@ export default async function AdminPage({
 
       {(error || loadError) && <p className="admin-error">{error ?? loadError}</p>}
 
-      {!settings.data || rows.length === 0 ? (
+      {!settings.data ? (
         <section className="admin-card">
           <h2>Start from the current site</h2>
           <p>
@@ -212,20 +212,20 @@ function CaseCard({ row }: { row: CaseRow }) {
       </form>
 
       <div className="admin-images">
-        {images.map((image) => (
+        {images.map((image, i) => (
           <form key={image.id} className="admin-image">
             <input type="hidden" name="id" value={image.id} />
             <input type="hidden" name="case_id" value={row.id} />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={image.path} alt="" />
+            <img src={image.path} alt={`Photo ${i + 1} of ${images.length}`} />
             <div>
-              <button formAction={moveImage} name="direction" value="up" aria-label="Move earlier">
+              <button formAction={moveImage} name="direction" value="up" aria-label={`Move photo ${i + 1} earlier`}>
                 ←
               </button>
-              <button formAction={moveImage} name="direction" value="down" aria-label="Move later">
+              <button formAction={moveImage} name="direction" value="down" aria-label={`Move photo ${i + 1} later`}>
                 →
               </button>
-              <button formAction={deleteImage} aria-label="Delete photo">
+              <button formAction={deleteImage} aria-label={`Delete photo ${i + 1}`}>
                 ×
               </button>
             </div>

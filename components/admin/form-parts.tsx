@@ -1,6 +1,7 @@
 'use client'
 
 import type { ReactNode } from 'react'
+import { useRef } from 'react'
 import { useFormStatus } from 'react-dom'
 
 const MAX_EDGE = 1800
@@ -31,6 +32,7 @@ export function PhotoInput({
   multiple?: boolean
   required?: boolean
 }) {
+  const generationRef = useRef(0)
   return (
     <input
       type="file"
@@ -40,9 +42,21 @@ export function PhotoInput({
       required={required}
       onChange={async (event) => {
         const input = event.currentTarget
+        const files = Array.from(input.files ?? [])
+        const generation = ++generationRef.current
         const shrunk = new DataTransfer()
-        for (const file of Array.from(input.files ?? []))
-          shrunk.items.add(await shrink(file).catch(() => file))
+        for (const file of files) {
+          const converted = await shrink(file).catch(() => file)
+          if (generation !== generationRef.current) return
+          shrunk.items.add(converted)
+        }
+        if (generation !== generationRef.current) return
+        const total = Array.from(shrunk.files).reduce((sum, f) => sum + f.size, 0)
+        if (total > 4 * 1024 * 1024) {
+          alert('Selected photos are too large after compression. Please choose fewer or smaller photos.')
+          input.value = ''
+          return
+        }
         input.files = shrunk.files
       }}
     />

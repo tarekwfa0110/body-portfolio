@@ -55,11 +55,13 @@ async function swapWithNeighbour(
     .from(table)
     .update({ sort_order: rows[to].sort_order })
     .eq('id', rows[from].id)
+  check(first.error)
+
   const second = await db()
     .from(table)
     .update({ sort_order: rows[from].sort_order })
     .eq('id', rows[to].id)
-  check(first.error ?? second.error)
+  check(second.error)
 }
 
 async function nextOrder(table: 'cases' | 'case_images', column?: string, value?: number) {
@@ -91,6 +93,7 @@ async function addPhotosToCase(caseId: number, photos: File[]) {
 
 // ---------- sign in / out ----------
 
+/** Authenticate the admin with the supplied password. */
 export async function login(form: FormData) {
   if (!passwordIsRight(text(form, 'password'))) {
     await new Promise((resolve) => setTimeout(resolve, 800)) // slow down guessing
@@ -100,6 +103,7 @@ export async function login(form: FormData) {
   redirect('/admin')
 }
 
+/** End the admin session and return to the login screen. */
 export async function logout() {
   await endSession()
   redirect('/admin')
@@ -150,6 +154,7 @@ export async function importStarterContent() {
 
 // ---------- profile ----------
 
+/** Persist profile fields and optional new portrait/avatar photos. */
 export async function saveProfile(form: FormData) {
   await requireAdmin()
 
@@ -167,12 +172,16 @@ export async function saveProfile(form: FormData) {
   }
 
   const [portraitFile] = files(form, 'portrait')
+  let oldPortraitPath: string | undefined
+  let oldAvatarPath: string | undefined
   if (portraitFile) {
     const old = await db()
       .from('settings')
       .select('portrait_path, avatar_path')
       .eq('id', 1)
       .maybeSingle()
+    oldPortraitPath = old.data?.portrait_path
+    oldAvatarPath = old.data?.avatar_path
     const portrait = await storePhoto(portraitFile, 'profile', 1200, 78)
     const avatar = await storePhoto(portraitFile, 'profile', 160, 80)
     Object.assign(changes, {
@@ -183,19 +192,18 @@ export async function saveProfile(form: FormData) {
       avatar_width: avatar.width,
       avatar_height: avatar.height,
     })
-    if (old.data) {
-      await removeStoredPhoto(old.data.portrait_path)
-      await removeStoredPhoto(old.data.avatar_path)
-    }
   }
 
   const { error } = await db().from('settings').update(changes).eq('id', 1)
   check(error)
+  if (oldPortraitPath) await removeStoredPhoto(oldPortraitPath)
+  if (oldAvatarPath) await removeStoredPhoto(oldAvatarPath)
   refresh()
 }
 
 // ---------- cases ----------
 
+/** Create a new case with an initial set of photos. */
 export async function addCase(form: FormData) {
   await requireAdmin()
   const title = text(form, 'title')
@@ -216,6 +224,7 @@ export async function addCase(form: FormData) {
   refresh()
 }
 
+/** Update a case's title and section. */
 export async function updateCase(form: FormData) {
   await requireAdmin()
   const title = text(form, 'title')
@@ -229,6 +238,7 @@ export async function updateCase(form: FormData) {
   refresh()
 }
 
+/** Reorder a case within its section. */
 export async function moveCase(form: FormData) {
   await requireAdmin()
   const id = number(form, 'id')
@@ -244,25 +254,29 @@ export async function moveCase(form: FormData) {
   refresh()
 }
 
+/** Delete a case and its stored photos. */
 export async function deleteCase(form: FormData) {
   await requireAdmin()
   const id = number(form, 'id')
   const images = await db().from('case_images').select('path').eq('case_id', id)
   check(images.error)
-  for (const image of images.data ?? []) await removeStoredPhoto(image.path)
+  const paths = (images.data ?? []).map((image) => image.path)
 
   check((await db().from('cases').delete().eq('id', id)).error)
+  for (const path of paths) await removeStoredPhoto(path)
   refresh()
 }
 
 // ---------- photos ----------
 
+/** Append photos to an existing case. */
 export async function addPhotos(form: FormData) {
   await requireAdmin()
   await addPhotosToCase(number(form, 'case_id'), files(form, 'photos'))
   refresh()
 }
 
+/** Reorder a photo within its case. */
 export async function moveImage(form: FormData) {
   await requireAdmin()
   const { data, error } = await db()
@@ -276,12 +290,13 @@ export async function moveImage(form: FormData) {
   refresh()
 }
 
+/** Delete a single photo from a case. */
 export async function deleteImage(form: FormData) {
   await requireAdmin()
   const id = number(form, 'id')
   const { data, error } = await db().from('case_images').select('path').eq('id', id).maybeSingle()
   check(error)
-  check((await db().from('case_images').delete().eq('id', id)).error)
   if (data) await removeStoredPhoto(data.path)
+  check((await db().from('case_images').delete().eq('id', id)).error)
   refresh()
 }
