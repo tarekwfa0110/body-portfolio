@@ -116,6 +116,14 @@
   color: #a33;
 }
 
+.admin-notice {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border: 1px solid #2a7;
+  color: #2a7;
+  background: #eaf6ef;
+}
+
 .admin-login {
   max-width: 360px;
   margin: 15vh auto 0;

@@ -222,6 +222,7 @@ export async function addCase(form: FormData) {
 
   await addPhotosToCase(data!.id, files(form, 'photos'))
   refresh()
+  redirect('/admin?notice=Case+added')
 }
 
 /** Update a case's title and section. */
@@ -274,6 +275,7 @@ export async function addPhotos(form: FormData) {
   await requireAdmin()
   await addPhotosToCase(number(form, 'case_id'), files(form, 'photos'))
   refresh()
+  redirect('/admin?notice=Photos+added')
 }
 
 /** Reorder a photo within its case. */

@@ -3,7 +3,7 @@ import { PhotoInput, SubmitButton } from '@/components/admin/form-parts'
 import { adminConfigured, isAdmin } from '@/lib/admin-auth'
 import { getDb } from '@/lib/supabase'
 import { sectionNames } from '@/lib/types'
-import type { Contact } from '@/lib/types'
+import type { Contact, SectionName } from '@/lib/types'
 import {
   addCase,
   addPhotos,
@@ -35,9 +35,9 @@ type SettingsRow = { name: string; bio: string; contacts: Contact[]; portrait_pa
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>
+  searchParams: Promise<{ error?: string; notice?: string }>
 }) {
-  const { error } = await searchParams
+  const { error, notice } = await searchParams
   const db = getDb()
 
   if (!db || !adminConfigured()) return <Setup />
@@ -65,6 +65,9 @@ export default async function AdminPage({
       <header className="admin-bar">
         <h1>Portfolio admin</h1>
         <div>
+          <Link href="/print" target="_blank" rel="noopener noreferrer">
+            Print / Save as PDF
+          </Link>
           <Link href="/">View site</Link>
           <form action={logout}>
             <button className="admin-link">Sign out</button>
@@ -73,6 +76,7 @@ export default async function AdminPage({
       </header>
 
       {(error || loadError) && <p className="admin-error">{error ?? loadError}</p>}
+      {notice && <p className="admin-notice">{notice}</p>}
 
       {!settings.data ? (
         <section className="admin-card">
@@ -96,9 +100,9 @@ export default async function AdminPage({
                 .map((row) => (
                   <CaseCard key={row.id} row={row} />
                 ))}
+              <AddCase defaultSection={section} />
             </section>
           ))}
-          <AddCase />
         </>
       )}
     </main>
@@ -242,13 +246,13 @@ function CaseCard({ row }: { row: CaseRow }) {
   )
 }
 
-function AddCase() {
+function AddCase({ defaultSection }: { defaultSection?: SectionName }) {
   return (
     <form action={addCase} className="admin-card">
       <h2>Add a case</h2>
       <div className="admin-row">
         <input name="title" placeholder="Case title" required />
-        <select name="section" aria-label="Section">
+        <select name="section" defaultValue={defaultSection ?? sectionNames[0]} aria-label="Section">
           {sectionNames.map((name) => (
             <option key={name}>{name}</option>
           ))}
