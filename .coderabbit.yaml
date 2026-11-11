@@ -1,0 +1,29 @@
+# CodeRabbit configuration
+# https://docs.coderabbit.ai/reference/configuration
+language: "en-US"
+reviews:
+  profile: "chill"
+  review_status: true
+  high_level_summary: true
+  poem: false
+  path_filters:
+    # Ignore binary assets and generated/large files; review code only.
+    - "!**/*.webp"
+    - "!**/*.jpg"
+    - "!**/*.jpeg"
+    - "!**/*.png"
+    - "!**/*.gif"
+    - "!**/*.svg"
+    - "!**/*.ico"
+    - "!originals/**"
+    - "!public/cases/**"
+    - "!public/avatar.webp"
+    - "!public/portrait.webp"
+    - "!public/icon.png"
+    - "!pnpm-lock.yaml"
+    - "!package-lock.json"
+    - "!lib/image-sizes.json"
+    - "!*.patch"
+  auto_review:
+    enabled: true
+    drafts: false
