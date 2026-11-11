@@ -196,9 +196,9 @@ export async function saveProfile(form: FormData) {
 
   const { error } = await db().from('settings').update(changes).eq('id', 1)
   check(error)
+  refresh()
   if (oldPortraitPath) await removeStoredPhoto(oldPortraitPath)
   if (oldAvatarPath) await removeStoredPhoto(oldAvatarPath)
-  refresh()
 }
 
 // ---------- cases ----------
@@ -263,8 +263,8 @@ export async function deleteCase(form: FormData) {
   const paths = (images.data ?? []).map((image) => image.path)
 
   check((await db().from('cases').delete().eq('id', id)).error)
-  for (const path of paths) await removeStoredPhoto(path)
   refresh()
+  for (const path of paths) await removeStoredPhoto(path)
 }
 
 // ---------- photos ----------
@@ -296,7 +296,7 @@ export async function deleteImage(form: FormData) {
   const id = number(form, 'id')
   const { data, error } = await db().from('case_images').select('path').eq('id', id).maybeSingle()
   check(error)
-  if (data) await removeStoredPhoto(data.path)
   check((await db().from('case_images').delete().eq('id', id)).error)
   refresh()
+  if (data) await removeStoredPhoto(data.path)
 }
