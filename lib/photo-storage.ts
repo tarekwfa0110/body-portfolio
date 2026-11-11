@@ -24,7 +24,7 @@ export async function storePhoto(
   const path = `${folder}/${randomUUID()}.webp`
   const { error } = await db.storage.from(BUCKET).upload(path, data, {
     contentType: 'image/webp',
-    cacheControl: '31536000',
+    cacheControl: '60',
   })
   if (error) throw new Error(`Upload failed: ${error.message}`)
 
@@ -37,5 +37,6 @@ export async function removeStoredPhoto(src: string) {
   const db = getDb()
   const at = src.indexOf(PUBLIC_PREFIX)
   if (!db || at === -1) return
-  await db.storage.from(BUCKET).remove([src.slice(at + PUBLIC_PREFIX.length)])
+  const { error } = await db.storage.from(BUCKET).remove([src.slice(at + PUBLIC_PREFIX.length)])
+  if (error) throw new Error(`Delete failed: ${error.message}`)
 }

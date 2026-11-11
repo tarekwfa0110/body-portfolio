@@ -38,7 +38,7 @@ export async function getPortfolio(): Promise<Portfolio> {
       .returns<CaseRow[]>(),
   ])
 
-  if (settings.error || cases.error || !settings.data || cases.data.length === 0) {
+  if (settings.error || cases.error || !settings.data) {
     return staticPortfolio
   }
 
